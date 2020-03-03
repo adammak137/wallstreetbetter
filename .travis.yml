@@ -13,16 +13,18 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "wallstreetbetter";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
-  - npm test             # test the code
+  - npm test # test the code
   - npm run build-client # make the bundle
-
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: wallstreetbetter
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: tBHSm/xsyT2LcKHjTM/hozPiq6nPlwA01i+dkFREfp+sotSAKUIC6r84Og74TfnVHWoFc4fwdUyO/9dmDDO1v7d9U9JuS8ywpG7g+OjimO3aoSENuNZmWj68zxVChLYJksWfH8b77G35HAYSY8b4dRRHYYjazgE5r3jYNGxq6jbl5YBEvXayqAn6tyoZ9y5wUIFQNHiYW4neSnrsEt24jbZiRnSfV4f4nkxSWR5k9wGrSufh12IHHiMWL18tkHel0Y8rfJQ8E/MRqH/w0lMdwecISbVaLiqZwkt7iEuoCO8Dn2USwc0kW7epHtSk2OX3TkfG4boPbQIu4cs4FnEJ+vW//vDMIEHXKT0C6EawIzMTJA6KK3Bn5i1dErPn1zVkmYcszjkvaNRQEE7FRtzwMjesH4derW9GdA87ZTpgtxksSwbplH23ZdQeV3pv77W3WyYhwP/NXDEXoOlDuQrR10qrRjQsRpX/nxzMJvdDI7jUMQnmxJFruRZ8aSPGiO/3sA+ZQTQAnI+dJu9paAGbMonk5HqVML/baf9Qt3KK4Q/1iCAlABebT+rucL7S9NDEJALO62NZq4C1iqUXLCLHO16GSQaTHaT0NdnWU1bZ6gruqW21tYmDKu2IXbDpeC+P0BAj38WZ9AhnT+akORWnUTcRXO841Ldm//7rhdKsLMs=
