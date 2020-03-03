@@ -1,11 +1,21 @@
 const User = require('./user')
+const Stock = require('./stock')
+const Portfolio = require('./portfolio')
+const PortfolioTracker = require('./portfolioTracker')
+const Transactions = require('./transactions')
+//Creates the Transaction through table association
+User.belongsToMany(Stock, {through: Transactions})
+Stock.belongsToMany(User, {through: Transactions})
+Portfolio.belongsToMany(User, {through: Transactions})
+Portfolio.belongsToMany(Stock, {through: Transactions})
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+// //Create the Portfolio tracker association
+Portfolio.belongsToMany(Stock, {through: PortfolioTracker})
+Stock.belongsToMany(Portfolio, {through: PortfolioTracker})
+
+// //User has many portfoilios portfolios has one user
+User.hasMany(Portfolio)
+Portfolio.belongsTo(User)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -14,5 +24,9 @@ const User = require('./user')
  * instead of: const User = require('../db/models/user')
  */
 module.exports = {
-  User
+  User,
+  Stock,
+  Portfolio,
+  PortfolioTracker,
+  Transactions
 }
