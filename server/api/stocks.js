@@ -20,7 +20,7 @@ router.put('/', async (req, res, next) => {
   try {
     let batchString = req.body.stocks.join(',')
     let stockInfo = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${batchString}&token=${tokenKey}&types=quote&filter=symbol,lastSalePrice,companyName,open,change,changePercent,high,low`
+      `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${batchString}&token=${tokenKey}&types=quote&filter=symbol,lastSalePrice,companyName,open,change,changePercent,high,low,previousClose`
     )
     res.json(stockInfo.data)
   } catch (error) {

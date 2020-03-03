@@ -6,7 +6,7 @@ const Stock = db.define('stock', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  ticker: {
+  symbol: {
     type: Sequelize.STRING,
     allowNull: false
   }
