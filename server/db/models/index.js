@@ -2,19 +2,23 @@ const User = require('./user')
 const Stock = require('./stock')
 const Portfolio = require('./portfolio')
 // const PortfolioTracker = require('./portfolioTracker')
-const Transactions = require('./transactions')
+const Transaction = require('./transactions')
 //Creates the Transaction through table association
 Portfolio.belongsToMany(Stock, {
-  through: {model: Transactions, unique: false},
-  constraints: false
+  through: {model: Transaction, unique: false},
+  constraints: false,
+  foreignKey: 'portfolio_id'
 })
 Stock.belongsToMany(Portfolio, {
-  through: {model: Transactions, unique: false},
-  constraints: false
+  through: {model: Transaction, unique: false},
+  constraints: false,
+  foreignKey: 'stock_id'
 })
 
 // //User has many portfoilios portfolios has one user
-User.hasMany(Portfolio)
+User.hasMany(Portfolio, {
+  foreignKey: 'user_id'
+})
 Portfolio.belongsTo(User)
 
 /**
@@ -27,5 +31,5 @@ module.exports = {
   User,
   Stock,
   Portfolio,
-  Transactions
+  Transaction
 }
