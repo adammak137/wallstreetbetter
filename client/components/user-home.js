@@ -1,18 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {allPortfolios} from '../store/portfolio'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+// export const UserHome = props => {
 
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-    </div>
-  )
+class UserHome extends React.Component {
+  componentDidMount() {
+    this.props.allPortfolios()
+  }
+  render() {
+    return (
+      <div className="row">
+        <div className="col s12" />
+        <h3 className="center-align">All Portfolios</h3>
+      </div>
+    )
+  }
 }
 
 /**
@@ -23,8 +30,15 @@ const mapState = state => {
     email: state.user.email
   }
 }
+const mapDispatch = dispatch => {
+  return {
+    allPortfolios: () => {
+      dispatch(allPortfolios())
+    }
+  }
+}
 
-export default connect(mapState)(UserHome)
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

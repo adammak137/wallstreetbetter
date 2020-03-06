@@ -22,6 +22,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId/transactions/:portfolioId?', async (req, res, next) => {
   try {
+    console.log(req.body)
     const user_id = req.params.userId
     const portfolio_id = req.params.portfolioId
     if (!portfolio_id) {
@@ -61,9 +62,9 @@ router.get('/:userId/transactions/:portfolioId?', async (req, res, next) => {
 })
 
 //If no portfoilioID is sent the API will send a list of all portfolio names, if a portfolioId is sent then the route will send a list of all the stocks within a specific portfolio
-router.get('/:userId/portfolios/:portfolioId?', async (req, res, next) => {
+router.get('/portfolios/:portfolioId?', async (req, res, next) => {
   try {
-    const user_id = req.params.userId
+    const user_id = req.session.passport.user
     const portfolioId = req.params.portfolioId
     if (!portfolioId) {
       let allPortfolios = await Portfolio.findAll({

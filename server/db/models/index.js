@@ -19,7 +19,9 @@ Stock.belongsToMany(Portfolio, {
 User.hasMany(Portfolio, {
   foreignKey: 'user_id'
 })
-Portfolio.belongsTo(User)
+Portfolio.belongsTo(User, {
+  foreignKey: 'user_id'
+})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
