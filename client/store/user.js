@@ -6,17 +6,19 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const SET_PORTFOLIO = 'SET_PORTFOLIO'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultUser = {currentPortfolio: Infinity}
 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const setPortfolio = portfolioId => ({type: SET_PORTFOLIO, portfolioId})
 
 /**
  * THUNK CREATORS
@@ -67,13 +69,19 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const setPortfolioId = portfolioId => dispatch => {
+  dispatch(setPortfolio(portfolioId))
+}
+
 /**
  * REDUCER
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
+    case SET_PORTFOLIO:
+      return {...state, currentPortfolio: action.portfolioId}
     case GET_USER:
-      return action.user
+      return {...state, ...action.user}
     case REMOVE_USER:
       return defaultUser
     default:
