@@ -10,7 +10,7 @@ const GET_STOCKS = 'GET_STOCKS'
 /**
  * INITIAL STATE
  */
-const defaultStocks = []
+const defaultStocks = {portfolioStocks: [], searchStock: {}}
 
 /**
  * ACTION CREATORS
@@ -79,9 +79,10 @@ export const portfolioStocks = portfolioId => async dispatch => {
 }
 
 export default function(state = defaultStocks, action) {
+  console.log(action.stocks)
   switch (action.type) {
     case GET_STOCKS:
-      return action.stocks
+      return {...state, portfolioStocks: action.stocks}
     default:
       return state
   }

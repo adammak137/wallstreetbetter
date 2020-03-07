@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PortfolioStock from './portfolio-stock'
 import PropTypes from 'prop-types'
+import SearchStock from './search-stock'
+import TradeForm from './trade-form'
 
 class TradeHome extends React.Component {
   render() {
@@ -23,8 +25,11 @@ class TradeHome extends React.Component {
             })}
           </div>
           <div className="col s6">
-            <div className="card-panel teal lighten-2 col s12 center-align ">
-              <h1>Symbol</h1>
+            <div className="row">
+              <SearchStock />
+            </div>
+            <div className="row">
+              <TradeForm />
             </div>
           </div>
         </div>
@@ -36,7 +41,7 @@ class TradeHome extends React.Component {
 const mapState = state => {
   return {
     currentPortfolio: state.user.currentPortfolio,
-    stocks: state.stocks
+    stocks: state.stocks.portfolioStocks
   }
 }
 

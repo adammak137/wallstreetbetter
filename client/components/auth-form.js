@@ -53,7 +53,14 @@ const AuthForm = props => {
           </div>
         </div>
         <div>
-          <button type="submit">{displayName}</button>
+          <button
+            className="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+          >
+            Submit
+            <i className="material-icons right">send</i>
+          </button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
