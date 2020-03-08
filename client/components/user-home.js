@@ -29,7 +29,7 @@ class UserHome extends React.Component {
                   name={element.name}
                   balance={element.balance}
                   portfolioId={element.id}
-                  portfolioStocks={this.props.portfolioStocks}
+                  handleClick={this.props.portfolioStocks}
                 />
               </div>
             )

@@ -33,37 +33,42 @@ router.get('/:portfolioId/stocks', async (req, res, next) => {
     const portfolioId = req.params.portfolioId
     let stockPortfolio = await db.query(
       `SELECT
-          SUM(CASE WHEN Transactions.purchase = True THEN Transactions.quantity ELSE Transactions.quantity * -1 END) as TotalQuantity,
+          SUM(CASE WHEN Transactions.purchase = True THEN Transactions.quantity ELSE Transactions.quantity * -1 END) as totalquantity,
           Stocks.name as Name,
           Stocks.symbol as Symbol
           FROM Transactions
           LEFT JOIN Stocks On Transactions.stock_id = Stocks.id
           WHERE portfolio_id = ${portfolioId}
           GROUP By Name, Symbol
+          HAVING ( SUM(CASE WHEN Transactions.purchase = True THEN Transactions.quantity ELSE Transactions.quantity * -1 END) ) > 0
           `,
       {type: db.QueryTypes.SELECT}
     )
     //In order to display the change we need to query for the last close price by doing a batch request
-    let stockArray = []
-    stockPortfolio.forEach(val => {
-      stockArray.push(val.symbol.toLowerCase())
-    })
+    if (stockPortfolio.length === 0) {
+      res.json({stickPortfolio: {}, stockMap: {}})
+    } else {
+      let stockArray = []
+      stockPortfolio.forEach(val => {
+        stockArray.push(val.symbol.toLowerCase())
+      })
 
-    let {data} = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
-        ','
-      )}&token=${tokenKey}&types=quote&filter=latestPrice,previousClose`
-    )
-    // Go through each stock and append the data found
-    // Stock list is used to enable and disable buttons on the front end
-    let stockMap = {}
-    stockPortfolio.forEach(stockInPort => {
-      let symbol = stockInPort.symbol
-      stockInPort.latestPrice = data[symbol].quote.latestPrice
-      stockInPort.previousClose = data[symbol].quote.previousClose
-      stockMap[symbol] = stockInPort.totalquantity
-    })
-    res.json({stockPortfolio, stockMap})
+      let {data} = await axios.get(
+        `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
+          ','
+        )}&token=${tokenKey}&types=quote&filter=latestPrice,previousClose`
+      )
+      // Go through each stock and append the data found
+      // Stock list is used to enable and disable buttons on the front end
+      let stockMap = {}
+      stockPortfolio.forEach(stockInPort => {
+        let symbol = stockInPort.symbol
+        stockInPort.latestPrice = data[symbol].quote.latestPrice
+        stockInPort.previousClose = data[symbol].quote.previousClose
+        stockMap[symbol] = stockInPort.totalquantity
+      })
+      res.json({stockPortfolio, stockMap})
+    }
   } catch (error) {
     next(error)
   }

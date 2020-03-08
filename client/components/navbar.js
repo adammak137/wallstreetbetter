@@ -21,7 +21,10 @@ const Navbar = ({handleClick, isLoggedIn, name}) => (
               <a>Welcome, {name}</a>
             </li>
             <li>
-              <Link to="/home">Home</Link>
+              <Link to="/home">Portfolios</Link>
+            </li>
+            <li>
+              <Link to="/transactions">Transaction</Link>
             </li>
             <li>
               <a href="#" onClick={handleClick}>

@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
@@ -7,7 +7,7 @@ import {auth} from '../store'
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, handleSubmit, error} = props
 
   return (
     <div className="section container">

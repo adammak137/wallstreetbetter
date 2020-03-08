@@ -1,15 +1,22 @@
 import React from 'react'
 
 function PortfolioStock(props) {
+  let color = 'gray-text'
+  if (props.latestPrice > props.previousClose) {
+    color = 'green-text'
+  } else if (props.latestPrice < props.previousClose) {
+    color = 'red-text'
+  }
   return (
-    <div className="row center-align">
-      <div className="card-panel teal lighten-2 col s8 center-align">
-        <h5>{props.quantity}</h5>
-        <h5>{props.name}</h5>
-        <h5>{props.symbol}</h5>
-        <h5>{props.latestPrice}</h5>
-      </div>
-    </div>
+    <tr>
+      <td>{props.symbol}</td>
+      <td>{props.name}</td>
+      <td>{props.quantity}</td>
+      <td className={`${color}`}>{`$${props.latestPrice}`}</td>
+      <td className={`${color}`}>{`$${(
+        props.latestPrice * props.quantity
+      ).toFixed(2)}`}</td>
+    </tr>
   )
 }
 
