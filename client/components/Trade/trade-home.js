@@ -51,18 +51,19 @@ class TradeHome extends React.Component {
       <div className="section container">
         <div className="row">
           <div className="col s6 scroll">
-            {this.props.stocks.map(stocks => {
-              return (
-                <PortfolioStock
-                  key={stocks.symbol}
-                  quantity={stocks.totalQuantity}
-                  symbol={stocks.symbol}
-                  latestPrice={stocks.latestPrice}
-                  previousClose={stocks.previousClose}
-                  name={stocks.name}
-                />
-              )
-            })}
+            {this.props.stocks &&
+              this.props.stocks.map(stocks => {
+                return (
+                  <PortfolioStock
+                    key={stocks.symbol}
+                    quantity={stocks.totalQuantity}
+                    symbol={stocks.symbol}
+                    latestPrice={stocks.latestPrice}
+                    previousClose={stocks.previousClose}
+                    name={stocks.name}
+                  />
+                )
+              })}
           </div>
           <div className="col s6">
             <div className="row col s12 center-align card-panel">
@@ -114,7 +115,7 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = dispatch => {
   return {
     searchStock: evt => {
       evt.preventDefault()
