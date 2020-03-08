@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {numberFormatter} from '../../utility'
+import {connect} from 'react-redux'
 
 function TradeForm(props) {
   const {companyName, latestPrice} = props.stock
@@ -9,7 +8,12 @@ function TradeForm(props) {
   const handleQuantity = props.handleQuantity
   const buyState = props.buyState
   const sellState = props.sellState
-
+  const handleTransaction = props.handleTransaction
+  const transactionObject = {
+    symbol: props.symbol.toLowerCase(),
+    portfolioId: props.portfolioId,
+    quantity: quantity
+  }
   return (
     <div className="row col s12 center-align card-panel">
       <h5>{companyName}</h5>
@@ -38,7 +42,8 @@ function TradeForm(props) {
               <button
                 className={`btn waves-effect waves-light btn-large ${sellState}`}
                 type="submit"
-                name="action"
+                name="sell"
+                onClick={evt => handleTransaction(evt, transactionObject)}
               >
                 Sell
               </button>
@@ -47,7 +52,8 @@ function TradeForm(props) {
               <button
                 className={`btn waves-effect waves-light btn-large ${buyState}`}
                 type="submit"
-                name="action"
+                name="buy"
+                onClick={evt => handleTransaction(evt, transactionObject)}
               >
                 Buy
               </button>
@@ -59,6 +65,15 @@ function TradeForm(props) {
   )
 }
 
-//mapping the current choosen portfolio identification here because only this component uses this information for the trad-form page
+const mapState = state => {
+  return {
+    currentPortfolio: state.user.currentPortfolio,
+    stock: state.stocks.searchStock,
+    portfolioName: state.user.currentPortfolio.name,
+    balance: state.user.currentPortfolio.balance,
+    portfolioId: state.user.currentPortfolio.id,
+    symbol: state.stocks.searchStock.symbol
+  }
+}
 
-export default TradeForm
+export default connect(mapState)(TradeForm)

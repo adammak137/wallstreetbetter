@@ -4,7 +4,7 @@ import PortfolioStock from './portfolio-stock'
 import PropTypes from 'prop-types'
 import SearchStock from './search-stock'
 import TradeForm from './trade-form'
-import {searchStock} from '../../store/stock'
+import {searchStock, buySellStock} from '../../store/stock'
 import {numberFormatter} from '../../utility'
 
 class TradeHome extends React.Component {
@@ -34,9 +34,7 @@ class TradeHome extends React.Component {
     }
     //deterimine if we need to disable the button for sell
     let checkStock = this.props.stock.symbol.toUpperCase()
-    console.log('hitting out', quantity, checkStock, this.props.stockMap)
     if (this.props.stockMap.hasOwnProperty(checkStock)) {
-      console.log('hitting', quantity)
       if (
         calculatedTotal !== 0 &&
         quantity <= parseInt(this.props.stockMap[checkStock], 10)
@@ -89,14 +87,12 @@ class TradeHome extends React.Component {
             {this.props.stock.symbol && (
               <div className="row">
                 <TradeForm
-                  stock={this.props.stock}
                   quantity={this.state.quantity}
                   calculatedTotal={this.state.calculatedTotal}
-                  handleQuantity={this.handleQuantity}
-                  portfolioName={this.props.portfolioName}
-                  balance={this.props.balance}
                   buyState={this.state.buyState}
                   sellState={this.state.sellState}
+                  handleTransaction={this.props.handleTransaction}
+                  handleQuantity={this.handleQuantity}
                 />
               </div>
             )}
@@ -118,12 +114,18 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     searchStock: evt => {
       evt.preventDefault()
       const symbol = evt.target.symbol.value
       dispatch(searchStock(symbol))
+    },
+    handleTransaction: (evt, transactionData) => {
+      evt.preventDefault()
+      console.log(evt.target.name, transactionData)
+      transactionData.transactionType = evt.target.name
+      dispatch(buySellStock(transactionData))
     }
   }
 }

@@ -33,50 +33,6 @@ const searchingStock = stock => {
 
 export const portfolioStocks = portfolioId => async dispatch => {
   try {
-    // const sample = [
-    //   {
-    //     totalquantity: '3',
-    //     name: 'Apple, Inc.',
-    //     symbol: 'AAPL',
-    //     latestPrice: 308.74,
-    //     previousClose: 292.14
-    //   },
-    //   {
-    //     totalquantity: '7',
-    //     name: 'Inovio Pharmaceuticals, Inc.',
-    //     symbol: 'INO',
-    //     latestPrice: 8.092,
-    //     previousClose: 7.79
-    //   },
-    //   {
-    //     totalquantity: '3',
-    //     name: 'Advanced Micro Devices',
-    //     symbol: 'AMD',
-    //     latestPrice: 308.74,
-    //     previousClose: 292.14
-    //   },
-    //   {
-    //     totalquantity: '7',
-    //     name: 'Intel',
-    //     symbol: 'INT',
-    //     latestPrice: 8.092,
-    //     previousClose: 7.79
-    //   },
-    //   {
-    //     totalquantity: '3',
-    //     name: 'Joke',
-    //     symbol: 'TEST',
-    //     latestPrice: 308.74,
-    //     previousClose: 292.14
-    //   },
-    //   {
-    //     totalquantity: '7',
-    //     name: 'TESTING',
-    //     symbol: 'TST',
-    //     latestPrice: 8.092,
-    //     previousClose: 7.79
-    //   }
-    // ]
     const {data} = await axios.get(`/api/portfolios/${portfolioId}/stocks`)
     dispatch(getStocks(data))
     dispatch(setPortfolioOnUser(portfolioId))
@@ -91,6 +47,16 @@ export const searchStock = symbol => async dispatch => {
     const formatSymbol = symbol.toLowerCase()
     const {data} = await axios.get(`/api/stocks/${formatSymbol}`)
     dispatch(searchingStock(data.quote))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const buySellStock = transaction => async dispatch => {
+  try {
+    const {transactionType, portfolioId} = transaction
+    await axios.put(`/api/stocks/${transactionType}`, transaction)
+    dispatch(portfolioStocks(portfolioId))
   } catch (error) {
     console.error(error)
   }
