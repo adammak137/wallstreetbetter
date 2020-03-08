@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function SearchStock() {
+function SearchStock(props) {
   return (
     <div className="row col s12 center-align card-panel">
       <h4>Search Stock</h4>
-      <form>
+      <form onSubmit={evt => props.searchStock(evt)}>
         <div className="row">
           <div className="input-field col s6 offset-s3 center-align">
             <label htmlFor="symbol">

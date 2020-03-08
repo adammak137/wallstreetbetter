@@ -12,7 +12,7 @@ router.get('/:ticker', async (req, res, next) => {
     let stockInfo = await axios.get(
       `https://sandbox.iexapis.com/stable/stock/${
         req.params.ticker
-      }/book?token=${tokenKey}&types=quote&filter=symbol,latestPrice, changePercent, previousClose`
+      }/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
     )
     res.json(stockInfo.data)
   } catch (error) {

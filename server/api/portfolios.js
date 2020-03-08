@@ -13,43 +13,58 @@ router.get('/:portfolioId?', async (req, res, next) => {
     if (!portfolioId) {
       let allPortfolios = await Portfolio.findAll({
         where: {user_id},
-        attributes: {exclude: ['createdAt', 'updatedAt', 'userId']}
+        attributes: {exclude: ['createdAt', 'updatedAt', 'user_id']}
       })
       res.json(allPortfolios)
     } else {
-      let stockPortfolio = await db.query(
-        `SELECT
-        SUM(CASE WHEN Transactions.purchase = True THEN Transactions.quantity ELSE Transactions.quantity * -1 END) as TotalQuantity,
-        Stocks.name as Name,
-        Stocks.symbol as Symbol
-        FROM Transactions
-        LEFT JOIN Stocks On Transactions.stock_id = Stocks.id
-        WHERE portfolio_id = ${portfolioId}
-        GROUP By Name, Symbol
-        `,
-        {type: db.QueryTypes.SELECT}
-      )
-      //In order to display the change we need to query for the last close price by doing a batch request
-      let stockArray = []
-      stockPortfolio.forEach(val => {
-        stockArray.push(val.symbol.toLowerCase())
+      let singlePortfolio = await Portfolio.findAll({
+        where: {id: portfolioId},
+        attributes: {exclude: ['createdAt', 'updatedAt', 'user_id']}
       })
-
-      let {data} = await axios.get(
-        `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
-          ','
-        )}&token=${tokenKey}&types=quote&filter=latestPrice,previousClose`
-      )
-
-      // Go through each stock and append the data found
-      stockPortfolio.forEach(stockInPort => {
-        let symbol = stockInPort.symbol
-        stockInPort.latestPrice = data[symbol].quote.latestPrice
-        stockInPort.previousClose = data[symbol].quote.previousClose
-      })
-      res.json(stockPortfolio)
+      res.json(singlePortfolio)
     }
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/:portfolioId/stocks', async (req, res, next) => {
+  try {
+    const portfolioId = req.params.portfolioId
+    let stockPortfolio = await db.query(
+      `SELECT
+          SUM(CASE WHEN Transactions.purchase = True THEN Transactions.quantity ELSE Transactions.quantity * -1 END) as TotalQuantity,
+          Stocks.name as Name,
+          Stocks.symbol as Symbol
+          FROM Transactions
+          LEFT JOIN Stocks On Transactions.stock_id = Stocks.id
+          WHERE portfolio_id = ${portfolioId}
+          GROUP By Name, Symbol
+          `,
+      {type: db.QueryTypes.SELECT}
+    )
+    //In order to display the change we need to query for the last close price by doing a batch request
+    let stockArray = []
+    stockPortfolio.forEach(val => {
+      stockArray.push(val.symbol.toLowerCase())
+    })
+
+    let {data} = await axios.get(
+      `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
+        ','
+      )}&token=${tokenKey}&types=quote&filter=latestPrice,previousClose`
+    )
+    // Go through each stock and append the data found
+    // Stock list is used to enable and disable buttons on the front end
+    let stockMap = {}
+    stockPortfolio.forEach(stockInPort => {
+      let symbol = stockInPort.symbol
+      stockInPort.latestPrice = data[symbol].quote.latestPrice
+      stockInPort.previousClose = data[symbol].quote.previousClose
+      stockMap[symbol] = stockInPort.totalquantity
+    })
+    res.json({stockPortfolio, stockMap})
+  } catch (error) {
+    next(error)
   }
 })
