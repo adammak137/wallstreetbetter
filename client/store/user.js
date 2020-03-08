@@ -11,7 +11,7 @@ const SET_PORTFOLIO = 'SET_PORTFOLIO'
 /**
  * INITIAL STATE
  */
-const defaultUser = {currentPortfolio: Infinity}
+const defaultUser = {currentPortfolio: {}}
 
 /**
  * ACTION CREATORS
@@ -69,8 +69,13 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const setPortfolioId = portfolioId => dispatch => {
-  dispatch(setPortfolio(portfolioId))
+export const setPortfolioOnUser = portfolioId => async dispatch => {
+  try {
+    let {data} = await axios.get(`/api/portfolios/${portfolioId}`)
+    dispatch(setPortfolio(data[0]))
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 /**
