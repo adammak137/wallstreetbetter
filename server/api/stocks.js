@@ -43,8 +43,10 @@ router.put('/buy', async (req, res, next) => {
     })
 
     const balance = singlePortfolio[0].dataValues.balance
-    const calculatedPrice = stockInfo.data.quote.latestPrice * 100 * quantity
-
+    //edge cases where result may come in where values have trailing 9s
+    const calculatedPrice = Math.round(
+      stockInfo.data.quote.latestPrice * 100 * quantity
+    )
     if (calculatedPrice > balance) {
       res
         .json(
@@ -112,15 +114,18 @@ router.put('/sell', async (req, res, next) => {
     )
     //if user is trying to sell more than the amount in the portfolio they will be given a message
     let portfolioStockQuant = stockPortfolio[0].totalquantity
+    console.log(quantity, portfolioStockQuant)
     if (quantity > portfolioStockQuant) {
-      console.log('hitting')
       res.json({
         error: `You do not have enough of this stock to sell ${quantity}`
       })
     } else {
       //calculation
+      //edge cases where result may come in where values have trailing 9s
       const balance = singlePortfolio[0].dataValues.balance
-      const calculatedPrice = stockInfo.data.quote.latestPrice * 100 * quantity
+      const calculatedPrice = Math.round(
+        stockInfo.data.quote.latestPrice * 100 * quantity
+      )
 
       await Transaction.create({
         stock_id: dbStock[0].dataValues.id,

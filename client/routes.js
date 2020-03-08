@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import {me} from './store'
-import TradeHome from './components/Trade/trade-home'
+import {TradeHome, TransactionHome} from './components/index'
 
 /**
  * COMPONENT
@@ -30,6 +30,8 @@ class Routes extends Component {
             <Route path="/trade">
               {portfolioChoosen ? <TradeHome /> : <UserHome />}
             </Route>
+            <Route path="/transactions" component={TransactionHome} />
+            <Route component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
