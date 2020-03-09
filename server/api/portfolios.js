@@ -6,6 +6,7 @@ const axios = require('axios')
 const tokenKey = process.env.IEX
 module.exports = router
 
+//used to find one particular portfolio or a list of all of them for a particular user
 router.get('/:portfolioId?', async (req, res, next) => {
   try {
     const user_id = req.session.passport.user
@@ -28,6 +29,8 @@ router.get('/:portfolioId?', async (req, res, next) => {
   }
 })
 
+//Finds a particular portfolio and querys iex for current stock prices
+//Also sends a map of all the stocks and quantity in order for fast lookup on button disables and enables
 router.get('/:portfolioId/stocks', async (req, res, next) => {
   try {
     const portfolioId = req.params.portfolioId
@@ -69,6 +72,18 @@ router.get('/:portfolioId/stocks', async (req, res, next) => {
       })
       res.json({stockPortfolio, stockMap})
     }
+  } catch (error) {
+    next(error)
+  }
+})
+
+//Used to create a portfolio must be logged in to the user to create a portfolio for the particular account
+router.post('/', async (req, res, next) => {
+  try {
+    let portfolioName = req.body.name
+    let user_id = req.session.user
+    await Portfolio.create({name: portfolioName, user_id})
+    res.json('Successfully created a portfolio')
   } catch (error) {
     next(error)
   }

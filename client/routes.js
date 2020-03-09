@@ -4,8 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import {me} from './store'
-import TransactionHome from '../client/components/transaction/transaction-home'
-import TradeHome from './components/trade/trade-home'
+import {TransactionHome, TradeHome} from './components/index'
 
 /**
  * COMPONENT

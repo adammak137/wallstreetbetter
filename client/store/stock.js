@@ -30,7 +30,8 @@ const searchingStock = stock => {
     stock
   }
 }
-
+//searchs all of the stocks on a particular portfolio on first dispatch
+//second dispatch sets users state with the currently selected portfolioId
 export const portfolioStocks = portfolioId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/portfolios/${portfolioId}/stocks`)
@@ -42,6 +43,7 @@ export const portfolioStocks = portfolioId => async dispatch => {
   }
 }
 
+//seraches for a particular stock on iex
 export const searchStock = symbol => async dispatch => {
   try {
     const formatSymbol = symbol.toLowerCase()
@@ -52,6 +54,7 @@ export const searchStock = symbol => async dispatch => {
   }
 }
 
+//buys and sells stocks and then dispatches portfolio stock to update state of the portfolio
 export const buySellStock = transaction => async dispatch => {
   try {
     const {transactionType, portfolioId} = transaction

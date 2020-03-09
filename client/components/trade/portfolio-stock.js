@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function PortfolioStock(props) {
   let color = 'gray-text'
@@ -18,6 +19,11 @@ function PortfolioStock(props) {
       ).toFixed(2)}`}</td>
     </tr>
   )
+}
+
+PortfolioStock.propTypes = {
+  latestPrice: PropTypes.number,
+  previousClose: PropTypes.number
 }
 
 export default PortfolioStock

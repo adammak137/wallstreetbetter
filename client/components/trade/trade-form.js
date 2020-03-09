@@ -9,6 +9,7 @@ function TradeForm(props) {
   const buyState = props.buyState
   const sellState = props.sellState
   const handleTransaction = props.handleTransaction
+
   const transactionObject = {
     symbol: props.symbol.toLowerCase(),
     portfolioId: props.portfolioId,

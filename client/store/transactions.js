@@ -19,7 +19,7 @@ const getTransactions = transactions => {
     transactions
   }
 }
-
+//gets all of the transactions for a particular user
 export const getAllTransactions = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/transactions')

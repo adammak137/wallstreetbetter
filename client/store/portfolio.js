@@ -22,21 +22,27 @@ const getPortfolios = portfolios => {
   }
 }
 
-const getAPortfolio = portfolio => {
-  return {
-    type: GET_A_PORTFOLIO,
-    portfolio
-  }
-}
-
 /**
  * THUNK CREATORS
  */
 
+//New state with all of the portfolios listed
 export const allPortfolios = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/portfolios')
     dispatch(getPortfolios(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+//posts a new portfolio and dispatches an update for the new state of portfolios
+export const createPortfolio = (
+  name = 'Default portfolio'
+) => async dispatch => {
+  try {
+    await axios.post('/api/portfolios', {name})
+    dispatch(allPortfolios())
   } catch (error) {
     console.error(error)
   }
