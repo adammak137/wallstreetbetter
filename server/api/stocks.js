@@ -6,6 +6,7 @@ const {Stock, Portfolio, Transaction} = require('../db/models/index')
 const db = require('../db/db')
 module.exports = router
 
+//Stock price for one particular symbol
 router.get('/:symbol', async (req, res, next) => {
   try {
     /*
@@ -23,6 +24,7 @@ router.get('/:symbol', async (req, res, next) => {
   }
 })
 
+//used to buy a particular stock,
 router.put('/buy', async (req, res, next) => {
   try {
     /*We need to check on the back end, for security reasons and the nature of a constantly updating market, if this stock ticker exists and its current price
@@ -49,10 +51,10 @@ router.put('/buy', async (req, res, next) => {
     )
     if (calculatedPrice > balance) {
       res
-        .json(
-          'sorry the stock price has changed and your balance is not enough to complete this transaction'
+        .send(
+          'Sorry the stock price has changed and your balance is not enough to complete this transaction'
         )
-        .status(406)
+        .status(401)
     } else {
       const dbStock = await Stock.findOrCreate({
         where: {symbol: stockInfo.data.quote.symbol},
@@ -116,9 +118,9 @@ router.put('/sell', async (req, res, next) => {
     let portfolioStockQuant = stockPortfolio[0].totalquantity
     console.log(quantity, portfolioStockQuant)
     if (quantity > portfolioStockQuant) {
-      res.json({
-        error: `You do not have enough of this stock to sell ${quantity}`
-      })
+      res
+        .send(`You do not have enough of this stock to sell ${quantity}`)
+        .status(401)
     } else {
       //calculation
       //edge cases where result may come in where values have trailing 9s
@@ -138,7 +140,7 @@ router.put('/sell', async (req, res, next) => {
       await Portfolio.update({balance: newBalance}, {where: {id: portfolioId}})
       //update balance
 
-      res.json('congratulations you have sucessfully sold the stock')
+      res.send('congratulations you have sucessfully sold the stock')
     }
   } catch (error) {
     next(error)

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function TransactionItem(props) {
   //portfolioname is lowercase because sql is not case sensitve
@@ -23,6 +24,14 @@ function TransactionItem(props) {
       <td>{portfolioname}</td>
     </tr>
   )
+}
+TransactionItem.propTypes = {
+  quantity: PropTypes.number,
+  amount: PropTypes.number,
+  name: PropTypes.string,
+  symbol: PropTypes.string,
+  date: PropTypes.string,
+  portfolioname: PropTypes.string
 }
 
 export default TransactionItem

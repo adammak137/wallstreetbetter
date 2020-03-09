@@ -5,6 +5,7 @@ const db = require('../db/db')
 const sequelize = require('sequelize')
 module.exports = router
 
+//used to get all of the transactions for a particular user
 router.get('/', async (req, res, next) => {
   try {
     const user_id = req.session.passport.user

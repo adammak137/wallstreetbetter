@@ -7,6 +7,7 @@ import portfolios from './portfolio'
 import stocks from './stock'
 import transactions from './transactions'
 
+//combines all of the reducers, adds middleware for thunks and logging and then creates a store
 const reducer = combineReducers({user, portfolios, stocks, transactions})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

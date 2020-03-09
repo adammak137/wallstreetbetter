@@ -8,6 +8,10 @@ import {searchStock, buySellStock} from '../../store/stock'
 import {numberFormatter} from '../../utility'
 
 class TradeHome extends React.Component {
+  /*local state to handle buttons/forms
+  This may need to be moved to redux state, when user purchases/sells a stock
+  the handlequantity function will not be triggered.
+  */
   constructor() {
     super()
     this.state = {
@@ -51,6 +55,8 @@ class TradeHome extends React.Component {
       <div className="section container">
         <div className="row">
           <div className="col s6 scroll">
+            {/* Creates the left side of trade home which will display
+            all of the stocks currently in the portfolio */}
             {this.props.stocks && (
               <table className="striped">
                 <thead>
@@ -82,6 +88,7 @@ class TradeHome extends React.Component {
           <div className="col s6">
             <div className="row col s12 center-align card-panel">
               <div className="row">
+                {/* Creates a card that shows the current portfolio balance and name */}
                 <div className="col s12">
                   <h5>{this.props.portfolioName}</h5>
                 </div>
@@ -118,9 +125,14 @@ class TradeHome extends React.Component {
   }
 }
 
+/*
+  StockMap: used to quickly find if the stock is in the portfolio to disable/enable selling
+  Stocks: Used to find all of the stocks within a portfolio
+  portfolioName: Used to display the current portfolio name
+  balance: used to display the current portfolio balance
+*/
 const mapState = state => {
   return {
-    currentPortfolio: state.user.currentPortfolio,
     stockMap: state.stocks.stockMap,
     stocks: state.stocks.portfolioStocks,
     stock: state.stocks.searchStock,
@@ -129,6 +141,10 @@ const mapState = state => {
   }
 }
 
+/*
+  SearchStock: Gets data from iex for stock data
+  handleTransaction: handles buying and selling
+*/
 const mapDispatch = dispatch => {
   return {
     searchStock: evt => {
@@ -138,7 +154,6 @@ const mapDispatch = dispatch => {
     },
     handleTransaction: (evt, transactionData) => {
       evt.preventDefault()
-      console.log(evt.target.name, transactionData)
       transactionData.transactionType = evt.target.name
       dispatch(buySellStock(transactionData))
     }
@@ -147,7 +162,10 @@ const mapDispatch = dispatch => {
 
 TradeHome.propTypes = {
   stocks: PropTypes.array,
-  stock: PropTypes.object
+  stock: PropTypes.object,
+  stockMap: PropTypes.object,
+  balance: PropTypes.number,
+  portfolioName: PropTypes.string
 }
 
 export default connect(mapState, mapDispatch)(TradeHome)

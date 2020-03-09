@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getAllTransactions} from '../../store/transactions'
 import TransactionItem from './transaction-item'
+import PropTypes from 'prop-types'
 
 class TransactionHome extends React.Component {
   componentDidMount() {
@@ -53,6 +54,10 @@ const mapDispatch = dispatch => {
       dispatch(getAllTransactions())
     }
   }
+}
+
+TransactionHome.propTypes = {
+  transactions: PropTypes.array
 }
 
 export default connect(mapState, mapDispatch)(TransactionHome)

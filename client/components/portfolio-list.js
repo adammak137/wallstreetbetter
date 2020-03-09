@@ -1,5 +1,6 @@
 import React from 'react'
 import {numberFormatter} from '../utility'
+import PropTypes from 'prop-types'
 
 const Portfoliolist = props => {
   return (
@@ -13,6 +14,9 @@ const Portfoliolist = props => {
       </div>
     </div>
   )
+}
+Portfoliolist.propTypes = {
+  portfolioId: PropTypes.number
 }
 
 export default Portfoliolist

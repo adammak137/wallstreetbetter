@@ -8,7 +8,6 @@ import PortfolioList from './portfolio-list'
 /**
  * COMPONENT
  */
-// export const UserHome = props => {
 
 class UserHome extends React.Component {
   componentDidMount() {

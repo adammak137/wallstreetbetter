@@ -32,6 +32,7 @@ export const me = () => async dispatch => {
   }
 }
 
+//used to either login or signup
 export const auth = (
   email,
   password,
@@ -59,6 +60,7 @@ export const auth = (
   }
 }
 
+//logout a user
 export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
@@ -69,6 +71,7 @@ export const logout = () => async dispatch => {
   }
 }
 
+//sets the portfolio id currently being looked at onto the user
 export const setPortfolioOnUser = portfolioId => async dispatch => {
   try {
     let {data} = await axios.get(`/api/portfolios/${portfolioId}`)
