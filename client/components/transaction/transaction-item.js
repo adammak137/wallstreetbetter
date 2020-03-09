@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {numberFormatter} from '../../utility'
 
 function TransactionItem(props) {
   //portfolioname is lowercase because sql is not case sensitve
@@ -18,7 +19,7 @@ function TransactionItem(props) {
       <td>{name}</td>
       <td>{symbol}</td>
       <td>{quantity}</td>
-      <td>{amount}</td>
+      <td>{`$${numberFormatter(amount)}`}</td>
       <td>{purchase ? 'Buy' : 'Sell'}</td>
       <td>{date}</td>
       <td>{portfolioname}</td>
