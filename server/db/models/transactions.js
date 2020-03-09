@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const Sequelize = require('sequelize')
 const db = require('../db')
 
@@ -18,6 +19,16 @@ const Transactions = db.define('transaction', {
   purchase: {
     type: Sequelize.BOOLEAN,
     allowNull: false
+  },
+  portfolio_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    foreignKey: true
+  },
+  stock_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    foreignKey: true
   }
 })
 
