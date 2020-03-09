@@ -41,7 +41,7 @@ export const createPortfolio = (
   name = 'Default portfolio'
 ) => async dispatch => {
   try {
-    const {data} = await axios.post('/api/portfolios', {name})
+    await axios.post('/api/portfolios', {name})
     dispatch(allPortfolios())
   } catch (error) {
     console.error(error)
