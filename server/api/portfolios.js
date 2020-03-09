@@ -82,7 +82,6 @@ router.post('/', async (req, res, next) => {
   try {
     let portfolioName = req.body.portfolioName
     let user_id = req.session.passport.user
-    console.log(req.body)
     await Portfolio.create({name: portfolioName, user_id})
     res.json('Successfully created a portfolio')
   } catch (error) {

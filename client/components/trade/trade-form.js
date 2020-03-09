@@ -44,7 +44,10 @@ function TradeForm(props) {
                 className={`btn waves-effect waves-light btn-large ${sellState}`}
                 type="submit"
                 name="sell"
-                onClick={evt => handleTransaction(evt, transactionObject)}
+                onClick={evt => {
+                  handleTransaction(evt, transactionObject)
+                  handleQuantity({}, true)
+                }}
               >
                 Sell
               </button>
@@ -54,7 +57,10 @@ function TradeForm(props) {
                 className={`btn waves-effect waves-light btn-large ${buyState}`}
                 type="submit"
                 name="buy"
-                onClick={evt => handleTransaction(evt, transactionObject)}
+                onClick={evt => {
+                  handleTransaction(evt, transactionObject)
+                  handleQuantity({}, true)
+                }}
               >
                 Buy
               </button>
