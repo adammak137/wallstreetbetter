@@ -20,8 +20,8 @@ class TransactionHome extends React.Component {
                 <th>Quantity</th>
                 <th>Amount</th>
                 <th>Buy/Sell</th>
-                <th>Portfolio Name</th>
                 <th>Date</th>
+                <th>Portfolio Name</th>
               </tr>
             </thead>
             <tbody>
