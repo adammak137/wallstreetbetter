@@ -23,12 +23,17 @@ class TradeHome extends React.Component {
     this.handleQuantity = this.handleQuantity.bind(this)
   }
 
-  handleQuantity(event) {
+  handleQuantity(event, clear = false) {
     //setting the state of quantity and the calculated price
-    const quantity = event.target.value
+    let quantity
+    if (clear) {
+      quantity = 0
+    } else {
+      quantity = event.target.value
+    }
     this.setState({quantity})
     let stockPrice = this.props.stock.latestPrice * 100
-    let calculatedTotal = stockPrice * event.target.value / 100
+    let calculatedTotal = stockPrice * quantity / 100
     this.setState({calculatedTotal})
     //determining if we need to disable the button for buy
     if (calculatedTotal !== 0 && this.props.balance / 100 > calculatedTotal) {

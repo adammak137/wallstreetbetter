@@ -116,7 +116,6 @@ router.put('/sell', async (req, res, next) => {
     )
     //if user is trying to sell more than the amount in the portfolio they will be given a message
     let portfolioStockQuant = stockPortfolio[0].totalquantity
-    console.log(quantity, portfolioStockQuant)
     if (quantity > portfolioStockQuant) {
       res
         .send(`You do not have enough of this stock to sell ${quantity}`)

@@ -1,6 +1,7 @@
 import React from 'react'
 
 function SearchStock(props) {
+  //should be changed to a controlled form
   return (
     <div className="row col s12 center-align card-panel">
       <h4>Search Stock</h4>
