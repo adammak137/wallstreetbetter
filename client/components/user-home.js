@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {allPortfolios} from '../store/portfolio'
 import {portfolioStocks} from '../store/stock'
 import PortfolioList from './portfolio-list'
+import CreatePortfolioModal from './create.modal'
 
 /**
  * COMPONENT
@@ -19,6 +20,7 @@ class UserHome extends React.Component {
         <div className="row">
           <div className="col s12" />
           <h3 className="center-align">All Portfolios</h3>
+          <CreatePortfolioModal />
         </div>
         {this.props.portfolios &&
           this.props.portfolios.map(element => {

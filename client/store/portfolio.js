@@ -38,10 +38,10 @@ export const allPortfolios = () => async dispatch => {
 
 //posts a new portfolio and dispatches an update for the new state of portfolios
 export const createPortfolio = (
-  name = 'Default portfolio'
+  portfolioName = 'Default portfolio'
 ) => async dispatch => {
   try {
-    await axios.post('/api/portfolios', {name})
+    await axios.post('/api/portfolios', {portfolioName})
     dispatch(allPortfolios())
   } catch (error) {
     console.error(error)

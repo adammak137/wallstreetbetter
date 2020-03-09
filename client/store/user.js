@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {createPortfolio} from './portfolio'
 
 /**
  * ACTION TYPES
@@ -48,10 +49,12 @@ export const auth = (
       firstName,
       lastName
     })
+    if (method === 'signup') {
+      dispatch(createPortfolio())
+    }
   } catch (authError) {
     return dispatch(getUser({error: authError}))
   }
-
   try {
     dispatch(getUser(res.data))
     history.push('/home')
