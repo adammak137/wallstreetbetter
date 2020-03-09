@@ -59,7 +59,7 @@ class TradeHome extends React.Component {
     return (
       <div className="section container">
         <div className="row">
-          <div className="col s6 scroll">
+          <div className="col s6 ">
             {/* Creates the left side of trade home which will display
             all of the stocks currently in the portfolio */}
             {this.props.stocks && (
@@ -98,7 +98,7 @@ class TradeHome extends React.Component {
                   <h5>{this.props.portfolioName}</h5>
                 </div>
                 <div className="col s6">
-                  <h5>Portfolio Balance</h5>
+                  <h5>Portfolio Cash Balance</h5>
                 </div>
                 <div className="col s6">
                   <h5>{`$${numberFormatter(this.props.balance)}`}</h5>
