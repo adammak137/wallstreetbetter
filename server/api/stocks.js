@@ -14,7 +14,7 @@ router.get('/:symbol', async (req, res, next) => {
     All response attributes related to 15 minute delayed market-wide price data are only available to paid subscribers.
   */
     let stockInfo = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/${
+      `https://cloud.iexapis.com/stable/stock/${
         req.params.symbol
       }/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
     )
@@ -36,7 +36,7 @@ router.put('/buy', async (req, res, next) => {
     const symbol = req.body.symbol
     const quantity = req.body.quantity
     const stockInfo = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/${symbol}/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
+      `https://cloud.iexapis.com/stable/stock/${symbol}/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
     )
 
     const singlePortfolio = await Portfolio.findAll({
@@ -89,7 +89,7 @@ router.put('/sell', async (req, res, next) => {
     const quantity = req.body.quantity
     //finding stock information such as price and if it is a valid symbol
     const stockInfo = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/${symbol}/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
+      `https://cloud.iexapis.com/stable/stock/${symbol}/book?token=${tokenKey}&types=quote&filter=symbol,companyName,latestPrice, changePercent, previousClose`
     )
     //finding the stock id needed
     const dbStock = await Stock.findAll({
@@ -151,7 +151,7 @@ router.put('/', async (req, res, next) => {
   try {
     let batchString = req.body.stocks.join(',')
     let stockInfo = await axios.get(
-      `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${batchString}&token=${tokenKey}&types=chart,quote&filter=latestPrice,previousClose`
+      `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${batchString}&token=${tokenKey}&types=chart,quote&filter=latestPrice,previousClose`
     )
     res.json(stockInfo.data)
   } catch (error) {

@@ -57,7 +57,7 @@ router.get('/:portfolioId/stocks', async (req, res, next) => {
       })
 
       let {data} = await axios.get(
-        `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
+        `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${stockArray.join(
           ','
         )}&token=${tokenKey}&types=quote&filter=latestPrice,previousClose`
       )

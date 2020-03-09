@@ -60,6 +60,7 @@ function TradeForm(props) {
               </button>
             </div>
           </div>
+          <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
         </div>
       </form>
     </div>
