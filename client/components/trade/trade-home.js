@@ -146,7 +146,6 @@ const mapDispatch = dispatch => {
 }
 
 TradeHome.propTypes = {
-  currentPortfolio: PropTypes.object,
   stocks: PropTypes.array,
   stock: PropTypes.object
 }
