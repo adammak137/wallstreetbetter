@@ -52,7 +52,7 @@ class TradeHome extends React.Component {
         <div className="row">
           <div className="col s6 scroll">
             {this.props.stocks && (
-              <table className="centered striped">
+              <table className="striped">
                 <thead>
                   <tr>
                     <th>Symbol</th>
